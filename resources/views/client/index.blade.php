@@ -2,16 +2,24 @@
 
 @section('content')
     @parent
-    <table>
-        @forelse ($clients as $client)
+    <table class="table table-bordered">
+        <thead>
             <tr>
-                <td>{{ $client->id }}</td>
-                <td>{{ $client->name }}</td>
+                <th>#</th>
+                <th>Cliente</th>
             </tr>
-        @empty
-            <tr>
-                <td>No found</td>
-            </tr>
-        @endforelse
+        </thead>
+        <tbody>
+            @forelse ($clients as $client)
+                <tr>
+                    <td>{{ $client->id }}</td>
+                    <td>{{ $client->name }}</td>
+                </tr>
+            @empty
+                <tr>
+                    <td>No found</td>
+                </tr>
+            @endforelse
+        </tbody>
     </table>
 @stop
