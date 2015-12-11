@@ -3,29 +3,36 @@
 namespace App\Http\Controllers;
 
 use App\Client;
+use App\Repositories\ClientRepository;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Validator;
 
 class ClientController extends Controller
 {
+    protected $repository;
+
+    public function __construct(ClientRepository $clientRepository)
+    {
+        $this->repository = $clientRepository;
+    }
+
     public function index()
     {
-        return response()->json(Client::all());
+        return response()->json($this->repository->all());
     }
 
-    public function find(Client $client)
+    public function find($id)
     {
-        return response()->json($client->get());
+        return response()->json($this->repository->find($id));
     }
 
-    public function projectsFrom(Client $client)
+    public function projectsFrom($id)
     {
-        return response()->json($client->projects()->get());
+        return response()->json($this->repository->find($id)->projects()->get());
     }
 
     public function save(Request $request)
