@@ -16,11 +16,9 @@ Route::get('/', function () {
 });
 
 Route::group(['prefix' => 'clients'], function () {
-    Route::model('client', 'App\Client');
-
     Route::get('/', 'ClientController@index');
-    Route::get('/show/{client}', 'ClientController@find');
-    Route::get('/projects/{client}', 'ClientController@projectsFrom');
+    Route::get('/show/{id}', 'ClientController@find');
+    Route::get('/{id}/projects', 'ClientController@projectsFrom');
     Route::post('/save', 'ClientController@save');
 });
 
@@ -32,4 +30,12 @@ Route::group(['prefix' => 'projects'], function () {
     Route::get('/client/{project}', 'ProjectController@clientFrom');
     Route::get('/tasks/{project}', 'ProjectController@tasksFrom');
     Route::post('/save', 'ProjectController@save');
+});
+
+Route::group(['prefix' => 'tasks'], function () {
+    Route::model('task', 'App\Task');
+    Route::model('project', 'App\Project');
+
+    Route::get('/project/{project}', 'TaskController@list');
+    Route::get('/project/{project}/checklist/{task}', 'TaskController@checklist');
 });
