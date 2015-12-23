@@ -16,81 +16,13 @@ class DatabaseSeeder extends Seeder
 
         DB::statement('SET FOREIGN_KEY_CHECKS = 0;');
 
-        $faker = Faker\Factory::create();
-
-        // ------------------------
-        // Client
-        // ------------------------
-        $client = App\Client::create([
-            'name' => $faker->company,
-        ]);
-
-
-        // ------------------------
-        // Project
-        // ------------------------
-        $project = App\Project::create([
-            'name' => $faker->city,
-        ]);
-
-        $project->client()->associate($client);
-        $project->save();
-
-
-        // ------------------------
-        // Task Type
-        // ------------------------
-        $taskType = App\TaskType::create([
-            'name' => $faker->monthName,
-        ]);
-
-
-        // ------------------------
-        // User
-        // ------------------------
-        $user = App\User::create([
-            'name' => $faker->name,
-            'email' => $faker->email,
-        ]);
-
-
-        // ------------------------
-        // Task
-        // ------------------------
-        $tasks = App\Task::create([
-            'title' => $faker->sentence,
-            'description' => $faker->sentence,
-        ]);
-
-        $tasks->project()->associate($project);
-        $tasks->user()->associate($user);
-        $tasks->taskType()->associate($taskType);
-        $tasks->save();
-
-
-        // ------------------------
-        // Task Checklist
-        // ------------------------
-        $taskChecklist = App\TaskChecklist::create([
-            'title' => $faker->sentence,
-        ]);
-
-        $taskChecklist->task()->associate($tasks);
-        $taskChecklist->save();
-
-
-        // ------------------------
-        // Task Checklist Item
-        // ------------------------
-        for ($i = 0; $i < 3; $i++) {
-            $taskChecklistItems = App\TaskChecklistItem::create([
-                'item' => $faker->sentence
-            ]);
-
-            $taskChecklistItems->checklist()->associate($taskChecklist);
-            $taskChecklistItems->save();
-        }
-
+        $this->call(ClientSeeder::class);
+        $this->call(ProjectSeeder::class);
+        $this->call(TaskTypeSeeder::class);
+        $this->call(UserSeeder::class);
+        $this->call(TaskSeeder::class);
+        $this->call(TaskChecklistSeeder::class);
+        $this->call(TaskChecklistItemSeeder::class);
 
         DB::statement('SET FOREIGN_KEY_CHECKS = 1;');
 
